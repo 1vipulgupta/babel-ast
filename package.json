@@ -1,0 +1,24 @@
+{
+  "name": "babel-wala-kaam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/generator": "^7.22.7",
+    "@babel/parser": "^7.22.7",
+    "@babel/traverse": "^7.22.8",
+    "@babel/types": "^7.22.5",
+    "fs": "0.0.1-security"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
