@@ -1,11 +1,10 @@
-import {vipul} from './index_for_import.js';
-
-var func = function (a) {
+var testThis = function (a) {
   return function (b) {
+    var s = 2;
+    console.log("Test")
       return 5 - a | 0;
   };
 };
 
-console.log(vipul);
 
-func(1)("work")
+testThis(1)("work")

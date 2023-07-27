@@ -2,7 +2,7 @@
     This Webpack loader looks for throw new Error("Failed Pattern Match ...") in the code and 
     replace it with throw new Error("PatternError")
 */
-
+const path = require('path')
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const generator = require('@babel/generator').default;
@@ -21,7 +21,7 @@ function writeFile(data, file)
   }
 
 
-function replacePurescriptErrorLogs(source){
+function replacePurescriptErrorLogs(source, fileName){
   try {
     const ast = parser.parse(source,{
       sourceType: "module"
@@ -36,19 +36,19 @@ function replacePurescriptErrorLogs(source){
       Program(path) {
         // console.log(path.node)
         // path.node.body = variableDec + path.node.body;
-        writeFile(JSON.stringify(path.node), 'ast3.json')
+        writeFile(JSON.stringify(path.node), `ast3-${fileName}.json`)
       }
     });
-    traverse(ast, {
-      FunctionDeclaration(path) {
-        writeFile(JSON.stringify(path.node), 'ast.json')
-      }
-    });
-    traverse(ast, {
-      BlockStatement(path) {
-        writeFile(JSON.stringify(path.node), 'ast2.json')
-      }
-    });
+    // traverse(ast, {
+    //   FunctionDeclaration(path) {
+    //     writeFile(JSON.stringify(path.node), 'ast.json')
+    //   }
+    // });
+    // traverse(ast, {
+    //   BlockStatement(path) {
+    //     writeFile(JSON.stringify(path.node), 'ast2.json')
+    //   }
+    // });
     const modifiedCode = generator(ast).code;
     return modifiedCode;
   }
@@ -59,5 +59,6 @@ function replacePurescriptErrorLogs(source){
 }
 
 module.exports = function(source, map){
-  this.callback(null, replacePurescriptErrorLogs(source), map);
+  const relPath = path.relative(__dirname, this.resourcePath)
+  this.callback(null, replacePurescriptErrorLogs(source, relPath), map);
 }
